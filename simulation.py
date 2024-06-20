@@ -25,12 +25,3 @@ v1_initial = [0.0, 0.0, 0.0]
 v2_initial = [0.0, 1.0, 0.0]
 v3_initial = [0.0, -1.0, 0.0] 
 
-# arrays
-masses = np.array([m1, m2, m3]) 
-positions = np.array([r1_initial, r2_initial, r3_initial])
-velocities = np.array([v1_initial, v2_initial, v3_initial])
-
-def update_positions_and_velocities(state_vector, positions, velocities):
-    return
-def equations_of_motion(t: float, y: np.ndarray) -> np.ndarray:
-    return
