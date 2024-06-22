@@ -18,19 +18,13 @@ I couldn't easily find a derivation of the differential equations in the form of
 
 ![system diagram](media/system_diagram.png)
 
-```math
-\begin{bmatrix}X\\Y\end{bmatrix}
-```
-
-$$\begin{bmatrix}1&1&1\end{bmatrix}$$
-
-$$\begin{bmatrix}x\\\y\\\z\end{bmatrix}$$
-
 Consider arbitrary body $M$ in a three dimensional system with two other bodies, $M_1$ and $M_2$. 
 
 $M$, $M_1$, and $M_2$ respectively have position vectors
-$$\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\quad\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\quad\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$$
-Define the vector from $M_1$ to $M$ as $\vec{r_1} = \vec{R}-\vec{R_1}$ and the vector from $M_2$ to $M$ as $\vec{r_2}=\vec{R}-\vec{R_2}$.
+
+$\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\quad\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\quad\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$
+
+Define the vector from $M_1$ to $M$ as $\vec{r_1}=\vec{R}-\vec{R_1}$ and the vector from $M_2$ to $M$ as $\vec{r_2}=\vec{R}-\vec{R_2}$.
 $$
 \begin{align*} 
 F_{m_{net}} &= -\frac{Gmm_1}{|\vec{R_1}|^2}\hat{R_1} - \frac{Gmm_1}{|\vec{R_2}|^2}\hat{R_2} \\
@@ -39,6 +33,7 @@ m\ddot{\vec{R}} &= -\frac{Gmm_1}{|\vec{R_1}|^2}\left(\frac{1}{|\vec{R_1}|} \cdot
 \end{align*}
 $$
 Then for each coordinate, we have 
+
 $$
 \begin{align*} 
 \ddot{x}&=-\frac{Gm_1}{|\vec{R_1}|^3}(x-x_1)-\frac{Gm_2}{|\vec{R_2}|^3}(x - x_2)\\
@@ -46,3 +41,4 @@ $$
 \ddot{z}&=\cdots 
 \end{align*}
 $$
+
