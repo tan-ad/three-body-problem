@@ -20,7 +20,8 @@ I couldn't easily find a derivation of the differential equations in the form of
 
 Consider arbitrary body $M$ in a three dimensional system with two other bodies, $M_1$ and $M_2$. 
 
-$M$, $M_1$, and $M_2$ respectively have position vectors $$\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$$
+$M$, $M_1$, and $M_2$ respectively have position vectors
+$$\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\quad\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\quad\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$$
 Define the vector from $M_1$ to $M$ as $\vec{r_1} = \vec{R}-\vec{R_1}$ and the vector from $M_2$ to $M$ as $\vec{r_2}=\vec{R}-\vec{R_2}$.
 $$
 \begin{align*} 
