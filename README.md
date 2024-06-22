@@ -28,9 +28,9 @@ Define the vector from $M_1$ to $M$ as $\vec{r_1}=\vec{R}-\vec{R_1}$ and the vec
 
 $$
 \begin{align*} 
-F_{m_{net}} &= -\frac{Gmm_1}{|\vec{R_1}|^2}\hat{R_1} - \frac{Gmm_1}{|\vec{R_2}|^2}\hat{R_2} \\
-m\ddot{\vec{R}} &= -\frac{Gmm_1}{|\vec{R_1}|^2}\left(\frac{1}{|\vec{R_1}|} \cdot \vec{R_1}\right) - \frac{Gmm_2}{|\vec{R_2}|^2}\left(\frac{1}{|\vec{R_2}|} \cdot \vec{R_2}\right) \\
-\ddot{\vec{R}} &= -\frac{Gm_1}{|\vec{R_1}|^3}\vec{R_1} - \frac{Gm_2}{|\vec{R_2}|^3}\vec{R_2} 
+F_{m_{net}} &= -\frac{Gmm_1}{|\vec{r_1}|^2}\hat{r_1} - \frac{Gmm_1}{|\vec{r_2}|^2}\hat{r_2} \\
+m\ddot{\vec{R}} &= -\frac{Gmm_1}{|\vec{r_1}|^2}\left(\frac{1}{|\vec{r_1}|} \cdot \vec{r_1}\right) - \frac{Gmm_2}{|\vec{r_2}|^2}\left(\frac{1}{|\vec{r_2}|} \cdot \vec{r_2}\right) \\
+\ddot{\vec{R}} &= -\frac{Gm_1}{|\vec{R}-\vec{R_1}|^3}(\vec{R}-\vec{R_1}) - \frac{Gm_2}{|\vec{R}-\vec{R_2}|^3}(\vec{R}-\vec{R_2})
 \end{align*}
 $$
 
@@ -38,7 +38,7 @@ Then for each coordinate, we have
 
 $$
 \begin{align*} 
-\ddot{x}&=-\frac{Gm_1}{|\vec{R_1}|^3}(x-x_1)-\frac{Gm_2}{|\vec{R_2}|^3}(x - x_2)\\
+\ddot{x}&=-\frac{Gm_1}{|\vec{R}-\vec{R_1}|^3}(x-x_1) - \frac{Gm_2}{|\vec{R}-\vec{R_2}|^3}(x-x_1)\\
 \ddot{y}&=\cdots\\
 \ddot{z}&=\cdots 
 \end{align*}
