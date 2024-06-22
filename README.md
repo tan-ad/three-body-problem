@@ -21,8 +21,11 @@ I couldn't easily find a derivation of the differential equations in the form of
 ```math
 \begin{bmatrix}X\\Y\end{bmatrix}
 ```
+
 $$\begin{bmatrix}1&1&1\end{bmatrix}$$
+
 $$\begin{bmatrix}x\\\y\\\z\end{bmatrix}$$
+
 Consider arbitrary body $M$ in a three dimensional system with two other bodies, $M_1$ and $M_2$. 
 
 $M$, $M_1$, and $M_2$ respectively have position vectors
