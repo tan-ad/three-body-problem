@@ -18,8 +18,6 @@ I couldn't easily find a derivation of the differential equations in the form of
 
 ![system diagram](media/system_diagram.png)
 
-$x = \sqrt{2}$
-
 Consider arbitrary body $M$ in a three dimensional system with two other bodies, $M_1$ and $M_2$. 
 
 $M$, $M_1$, and $M_2$ respectively have position vectors
