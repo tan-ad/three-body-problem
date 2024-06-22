@@ -7,9 +7,11 @@ Some of the program is set up to be scalable to higher dimensions, but here I pr
 Bodies are assumed to point masses so collision is not considered. Similarly to above, some of the program is set up to be scalable for $n$ bodies, but I mainly consider 3 bodies.
 ### Inertial frame of reference
 It seems it is standard to have the center of mass of the system be the origin of the inertial frame, so that is what this project uses. This means that for $n$ bodies, we have 
-$$\sum_{i=1}^nm_i\vec{R_i}=\vec{0}$$
+$$
+\sum_{i=1}^nm_i\vec{R_i}=\vec{0}
+$$
 By taking the derivative, this implies
-$$\sum_{i=1}^nm_i\dot{x}_i=\sum_{i=1}^nm_i\dot{y}_i=\sum_{i=1}^nm_i\dot{z}_i=0$$
+$$\sum_{i=1}^nm_i\dot{x_i}=\sum_{i=1}^nm_i\dot{y_i}=\sum_{i=1}^nm_i\dot{z_i}=0$$
 Also, I leave the $z$ dimension as $0$ most of the time since we can adjust the frame of reference such that the orbital plane of the bodies is the $x-y$ plane.
 
 ## Derivation of differential equations
