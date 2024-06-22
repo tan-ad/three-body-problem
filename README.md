@@ -10,7 +10,7 @@ It seems it is standard to have the center of mass of the system be the origin o
 $$\sum_{i=1}^nm_i\vec{R_i}=\vec{0}$$
 By taking the derivative, this implies
 $$\sum_{i=1}^nm_i\dot{x_i}=\sum_{i=1}^nm_i\dot{y_i}=\sum_{i=1}^nm_i\dot{z_i}=0$$
-Also, I leave the $z$ dimension as $0$ most of the time since we can adjust the frame of reference such that the orbital plane of the bodies is the $x$-$y$ plane.
+Also, I leave the $z$ dimension as $0$ most of the time since we can adjust the frame of reference such that the orbital plane of the bodies is the $x$ - $y$ plane.
 
 ## Derivation of differential equations
 
@@ -20,7 +20,7 @@ I couldn't easily find a derivation of the differential equations in the form of
 
 Consider arbitrary body $M$ in a three dimensional system with two other bodies, $M_1$ and $M_2$. 
 
-$M$, $M_1$, and $M_2$ have position vectors $\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$ respectively.
+$M$, $M_1$, and $M_2$ respectively have position vectors $$\vec{R}=\begin{bmatrix}x\\y\\z\end{bmatrix},\vec{R_1}=\begin{bmatrix}x_1\\y_1\\z_1\end{bmatrix},\vec{R_2}=\begin{bmatrix}x_2\\y_2\\z_2\end{bmatrix}$$
 Define the vector from $M_1$ to $M$ as $\vec{r_1} = \vec{R}-\vec{R_1}$ and the vector from $M_2$ to $M$ as $\vec{r_2}=\vec{R}-\vec{R_2}$.
 $$
 \begin{align*} 
