@@ -43,5 +43,14 @@ class System:
             body.set_r(state_vector[self.dim * i : self.dim * (i+1)])
             body.set_v(state_vector[self.dim * (self.size + i) : self.dim * (self.size + i + 1)])
 
+    def set_to_COM_reference(self):
+        new_state = np.empty((self.bodies*self.dim*2,)) # state vectors have size bodies*dim*2
+        half_index = self.bodies*self.dim
+        for i in self.get_state():
+            if i < half_index: # positions
+                
+            else: # velocities
+
+
     def __repr__(self):
         return f"Bodies: {self.bodies}, Dimension: {self.dim}"
