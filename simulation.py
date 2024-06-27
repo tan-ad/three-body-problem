@@ -32,3 +32,8 @@ b2 = Body(m2, r2_initial, v2_initial)
 b3 = Body(m3, r3_initial, v3_initial)
 bodies = np.array([b1,b2,b3])
 system = System(bodies)
+
+COM_position, COM_velocity = system.get_COM_position_and_velocity()
+print(system)
+system.set_to_COM_reference()
+print(system)
