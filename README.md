@@ -7,7 +7,7 @@ Some of the program is set up to be scalable to higher dimensions, but here I pr
 Bodies are assumed to point masses so collision is not considered. Similarly to above, some of the program is set up to be scalable for $n$ bodies, but I mainly consider 3 bodies.
 ### Inertial frame of reference
 It seems it is standard to have the center of mass of the system be the origin of the inertial frame, so that is what this project uses. However, I do so by adjusting some arbitrary initial positions and velocities such that the center of mass is at the origin and there is 0 net momentum, so the system can easily be converted to an arbitrary frame of reference.
-Also, I leave the $z$ dimension as $0$ most of the time since we can adjust the frame of reference such that the orbital plane of the bodies is the $x$ - $y$ plane. I keep a third dimension just for flexibility.
+Also, I leave the $z$ dimension as $0$ most of the time since we can adjust the frame of reference such that the orbital plane of the bodies is the $x$ - $y$ plane. 
 
 ## Derivation of differential equations
 
@@ -30,7 +30,6 @@ m\ddot{\vec{R}} &= -\frac{Gmm_1}{|\vec{r_1}|^2}\left(\frac{1}{|\vec{r_1}|} \cdot
 \ddot{\vec{R}} &= -\frac{Gm_1}{|\vec{R}-\vec{R_1}|^3}(\vec{R}-\vec{R_1}) - \frac{Gm_2}{|\vec{R}-\vec{R_2}|^3}(\vec{R}-\vec{R_2})
 \end{align*}
 $$
-
 Then for each coordinate, we have 
 
 $$
@@ -40,4 +39,10 @@ $$
 \ddot{z}&=\cdots 
 \end{align*}
 $$
+
+For an $n$-body system, we have
+$$\ddot{\vec{R}} = \sum_{i=1}^{n-1}-\frac{Gm_i}{|\vec{R}-\vec{R_i}|^3}(\vec{R}-\vec{R_i})$$
+but we will mainly consider 3 bodies.
+
+## Solving ODEs with SciPy
 
