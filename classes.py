@@ -28,6 +28,8 @@ class Body: # camelcase for class names
         return f"Mass: {self.m}, Position: {self.r}, Velocity: {self.v}"
 
 class System:
+    G = 6.67430e-11 # gravitational constant (N*m^2*kg^-2)
+
     def __init__(self, bodies: list[Body], dimensions: int = 3):
         self.bodies = bodies
         self.size = len(bodies)
@@ -66,6 +68,23 @@ class System:
             for i in range(self.size):
                 self.bodies[i].r[dimension] -= position_of_COM[dimension]
                 self.bodies[i].v[dimension] -= velocity_of_COM[dimension]
+
+    def differential_equations(self, state: np.ndarray, time: np.ndarray, masses: np.ndarray)->np.ndarray:
+        state_length = len(state)
+        array_shape = (self.size, self.dim)
+        positions = state[:state_length//2].reshape(array_shape) 
+        velocities = state[state_length//2:].reshape(array_shape)
+        accelerations = np.zeros(array_shape)
+
+        for i in range(self.size):
+            for j in range(self.size):
+                if i != j:
+                    r_ij = positions[i] - positions[j]
+                    dist_ij = np.linalg.norm(r_ij)
+                    accelerations[i] += - System.G * masses[j] * r_ij / dist_ij**3
+        
+        derivatives = np.concatenate((velocities.flatten(), accelerations.flatten()))
+        return derivatives
 
     def __repr__(self):
         COM_position, COM_velocity = self.get_COM_position_and_velocity()

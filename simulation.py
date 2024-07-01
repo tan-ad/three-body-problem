@@ -8,8 +8,7 @@ from classes import *
 constants and initial variables
 '''
 
-# gravitational constant (N*m^2*kg^-2)
-GRAVITATIONAL_CONSTANT = 6.67430e-11 # all caps for constants is conventional
+
 
 # masses (kg) 
 m1 = 0.00001
