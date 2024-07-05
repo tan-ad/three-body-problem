@@ -1,4 +1,7 @@
 import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 class Body: # camelcase for class names
     def __init__(self, mass: float, position: np.ndarray, velocity: np.ndarray):
@@ -84,6 +87,33 @@ class System:
         
         derivatives = np.concatenate((dR_over_dt.flatten(), dv_over_dt.flatten()))
         return derivatives
+    def get_solution(self):
+        masses = []
+        for body in self.bodies:
+            masses.append(body.m)
+        initial_state = self.get_state()
+        t_span = [0.0,10.0]
+        t_eval = np.arange(t_span[0], t_span[1], 0.01) # or np.linspace(t_span[0], t_span[1], 1000), difference is explicit interval length vs explicit number of intervals
+        solution = solve_ivp(self.differential_equations, t_span, initial_state, args=(masses,), t_eval=t_eval)
+        # fun fact: in numpy, a 2d array is indexed using array[row_indices, column_indices]
+        # another fun fact: can slice columns like solution.y[:,0]
+        return solution
+
+    def plot_lines(self, solution): # initial attempt at visualizing - not very good
+        solution_states = solution.y # array of 2*dim*size arrays, each containing values for each time value we chose to compute
+        positions = solution_states[:self.size * self.dim].reshape((self.size, self.dim, -1)) 
+        # we slice solution_states to get just the position data, which is a tensor of shape (size*dim, number of time instances)
+        # need to reshape to 3d tensor of shape (size, dim, number of time instances) so that the first layer of elements corresponds to values for each body, next layer corresponds to positions in each dimension, and last layer corresponds to positions in each dimension at specific times. 
+        # -1 is a placeholder that tells numpy to automatically calculate the size of this dimension based on the length of the array and the other specified dimensions.
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        for i in range(self.size):
+            ax.plot(positions[i, 0], positions[i, 1], positions[i, 2], label=f'Body {i+1}')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        ax.legend()
+        plt.show()
 
     def __repr__(self):
         COM_position, COM_velocity = self.get_COM_position_and_velocity()

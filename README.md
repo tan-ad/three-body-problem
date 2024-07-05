@@ -1,5 +1,5 @@
 # three-body-problem
-
+Program to visualize the three body problem. 
 ## Assumptions and setup
 ### Dimensions
 Some of the program is set up to be scalable to higher dimensions, but here I primarily work in $\mathbb{R}_3$. 
