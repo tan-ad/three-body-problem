@@ -46,3 +46,14 @@ but we will mainly consider 3 bodies.
 
 ## Solving ODEs with SciPy
 
+### `solve_ivp`
+In order to use `scipy.integrate.solve_ivp` to solve the initial value problem, we need a function that returns an array of first order differential equations. Given that our primary equation is a second order differential equation, we change it to two first order differential equations. 
+
+$$
+\begin{align}
+\ddot{\vec{R}} = \frac{d\vec{v}}{dt} \implies \frac{d\vec{v}}{dt} &= -\frac{Gm_1}{|\vec{R}-\vec{R_1}|^3}(\vec{R}-\vec{R_1}) - \frac{Gm_2}{|\vec{R}-\vec{R_2}|^3}(\vec{R}-\vec{R_2})\\
+\frac{d\vec{R}}{dt} &= \vec{v}
+\end{align}
+$$
+
+These along with the intial values for position and velocity allow us to simulate the system over a given time interval. 

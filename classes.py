@@ -42,8 +42,8 @@ class System:
 
     def set_state(self, state_vector: np.ndarray):
         for i, body in enumerate(self.bodies):
-            body.r(state_vector[self.dim * i : self.dim * (i+1)])
-            body.v(state_vector[self.dim * (self.size + i) : self.dim * (self.size + i + 1)])
+            body.r=state_vector[self.dim * i : self.dim * (i+1)]
+            body.v=state_vector[self.dim * (self.size + i) : self.dim * (self.size + i + 1)]
 
     def get_COM_position_and_velocity(self) -> tuple[list[float],list[float]]: # returns position_of_COM,velocity_of_COM
         position_of_COM = []
@@ -69,21 +69,20 @@ class System:
                 self.bodies[i].r[dimension] -= position_of_COM[dimension]
                 self.bodies[i].v[dimension] -= velocity_of_COM[dimension]
 
-    def differential_equations(self, state: np.ndarray, time: np.ndarray, masses: np.ndarray)->np.ndarray:
+    def differential_equations(self, time: np.ndarray, state: np.ndarray, masses: np.ndarray)->np.ndarray:
         state_length = len(state)
         array_shape = (self.size, self.dim)
-        positions = state[:state_length//2].reshape(array_shape) 
-        velocities = state[state_length//2:].reshape(array_shape)
-        accelerations = np.zeros(array_shape)
-
+        positions = state[:state_length//2].reshape(array_shape)
+        dR_over_dt = state[state_length//2:].reshape(array_shape)
+        dv_over_dt = np.zeros(array_shape)
         for i in range(self.size):
             for j in range(self.size):
                 if i != j:
                     r_ij = positions[i] - positions[j]
                     dist_ij = np.linalg.norm(r_ij)
-                    accelerations[i] += - System.G * masses[j] * r_ij / dist_ij**3
+                    dv_over_dt[i] += - System.G * masses[j] * r_ij / dist_ij**3
         
-        derivatives = np.concatenate((velocities.flatten(), accelerations.flatten()))
+        derivatives = np.concatenate((dR_over_dt.flatten(), dv_over_dt.flatten()))
         return derivatives
 
     def __repr__(self):
