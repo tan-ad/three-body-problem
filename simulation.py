@@ -1,7 +1,4 @@
 import numpy as np
-from scipy.integrate import solve_ivp
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 from classes import *
 
 # masses (kg) 
@@ -28,4 +25,5 @@ system = System(bodies)
 
 # solve initial value problem
 system.set_to_COM_reference()
-system.plot_lines(system.get_solution())
+# system.plot_lines_matplotlib(system.get_solution())
+system.plot_lines_plotly(system.get_solution())

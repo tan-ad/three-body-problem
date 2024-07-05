@@ -92,14 +92,15 @@ class System:
         for body in self.bodies:
             masses.append(body.m)
         initial_state = self.get_state()
-        t_span = [0.0,10.0]
-        t_eval = np.arange(t_span[0], t_span[1], 0.01) # or np.linspace(t_span[0], t_span[1], 1000), difference is explicit interval length vs explicit number of intervals
+        t_span = [0.0,100.0]
+        t_eval = np.arange(t_span[0], t_span[1], 0.01) # or 
+        # t_eval = np.linspace(t_span[0], t_span[1], 1000) # difference is explicit interval length vs explicit number of intervals
         solution = solve_ivp(self.differential_equations, t_span, initial_state, args=(masses,), t_eval=t_eval)
         # fun fact: in numpy, a 2d array is indexed using array[row_indices, column_indices]
         # another fun fact: can slice columns like solution.y[:,0]
         return solution
 
-    def plot_lines(self, solution): # initial attempt at visualizing - not very good
+    def plot_lines_matplotlib(self, solution): # initial attempt at visualizing - not very good
         solution_states = solution.y # array of 2*dim*size arrays, each containing values for each time value we chose to compute
         positions = solution_states[:self.size * self.dim].reshape((self.size, self.dim, -1)) 
         # we slice solution_states to get just the position data, which is a tensor of shape (size*dim, number of time instances)
@@ -114,6 +115,29 @@ class System:
         ax.set_zlabel('Z')
         ax.legend()
         plt.show()
+
+    def plot_lines_plotly(self, solution): # second attempt, more or less the same as first, need to figure out better visualization
+        solution_states = solution.y 
+        positions = solution_states[:self.size * self.dim].reshape((self.size, self.dim, -1)) 
+
+        fig = go.Figure()
+        for i in range(self.size):
+            fig.add_trace(go.Scatter3d(
+                x=positions[i, 0, :],
+                y=positions[i, 1, :],
+                z=positions[i, 2, :],
+                mode='lines',
+                name=f'Body {i+1}'
+            ))
+        fig.update_layout(
+            scene=dict(
+                xaxis_title='X',
+                yaxis_title='Y',
+                zaxis_title='Z'
+            ),
+            title='3D Trajectories of Bodies'
+        )
+        fig.show()
 
     def __repr__(self):
         COM_position, COM_velocity = self.get_COM_position_and_velocity()
