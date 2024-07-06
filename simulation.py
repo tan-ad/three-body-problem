@@ -26,4 +26,6 @@ system = System(bodies)
 # solve initial value problem
 system.set_to_COM_reference()
 # system.plot_lines_matplotlib(system.get_solution())
-system.plot_lines_plotly(system.get_solution())
+solution = system.get_solution(10)
+system.plot_lines_plotly(solution)
+# system.plot_lines_matplotlib(solution)

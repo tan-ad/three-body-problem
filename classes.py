@@ -87,12 +87,13 @@ class System:
         
         derivatives = np.concatenate((dR_over_dt.flatten(), dv_over_dt.flatten()))
         return derivatives
-    def get_solution(self):
+    
+    def get_solution(self, simulation_length):
         masses = []
         for body in self.bodies:
             masses.append(body.m)
         initial_state = self.get_state()
-        t_span = [0.0,100.0]
+        t_span = [0.0,simulation_length]
         t_eval = np.arange(t_span[0], t_span[1], 0.01) # or 
         # t_eval = np.linspace(t_span[0], t_span[1], 1000) # difference is explicit interval length vs explicit number of intervals
         solution = solve_ivp(self.differential_equations, t_span, initial_state, args=(masses,), t_eval=t_eval)
@@ -107,7 +108,7 @@ class System:
         # need to reshape to 3d tensor of shape (size, dim, number of time instances) so that the first layer of elements corresponds to values for each body, next layer corresponds to positions in each dimension, and last layer corresponds to positions in each dimension at specific times. 
         # -1 is a placeholder that tells numpy to automatically calculate the size of this dimension based on the length of the array and the other specified dimensions.
         fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
+        ax = fig.add_subplot(221, projection='3d')
         for i in range(self.size):
             ax.plot(positions[i, 0], positions[i, 1], positions[i, 2], label=f'Body {i+1}')
         ax.set_xlabel('X')
@@ -131,12 +132,14 @@ class System:
             ))
         fig.update_layout(
             scene=dict(
-                xaxis_title='X',
-                yaxis_title='Y',
-                zaxis_title='Z'
+                xaxis=dict(title='X', range=[positions[:, 0, :].min(), positions[:, 0, :].max()]),
+                yaxis=dict(title='Y', range=[positions[:, 1, :].min(), positions[:, 1, :].max()]),
+                zaxis=dict(title='Z', range=[positions[:, 2, :].min(), positions[:, 2, :].max()]),
+                aspectmode='cube'
             ),
             title='3D Trajectories of Bodies'
         )
+
         fig.show()
 
     def __repr__(self):
