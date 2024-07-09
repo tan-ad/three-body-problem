@@ -9,23 +9,6 @@ class Body: # camelcase for class names
         self.m = mass
         self.r = position
         self.v = velocity
-
-    # maybe getter setter functions are unneccesary for this
-
-    # def get_m(self) -> float:
-    #     return self._m
-    
-    # def get_r(self) -> np.ndarray:
-    #     return self._r
-
-    # def get_v(self) -> np.ndarray:
-    #     return self._v
-    
-    # def set_r(self, position: np.ndarray):
-    #     self._r = position
-
-    # def set_v(self, velocity: np.ndarray):
-    #     self._v = velocity
         
     def __repr__(self):
         return f"Mass: {self.m}, Position: {self.r}, Velocity: {self.v}"
@@ -86,9 +69,6 @@ class System:
                     dv_over_dt[i] += - System.G * masses[j] * r_ij / dist_ij**3
         
         derivatives = np.concatenate((dR_over_dt.flatten(), dv_over_dt.flatten()))
-        # print("positions: \n", positions)
-        # print("velocities: \n", dR_over_dt)
-        # print("accelerations: \n", dv_over_dt)
         return derivatives
     
     def get_solution(self, simulation_length):
@@ -106,7 +86,7 @@ class System:
 
     # ALL PLOTTING FUNCTIONS WRITTEN FOR 3D
     # wherever I use self.dim, I may as well just use 3
-    def plot_lines_matplotlib(self, solution): # initial attempt at visualizing - not very good
+    def plot_lines_matplotlib(self, solution): # initial attempt at visualizing - not very good. for 3 bodies
         solution_states = solution.y # array of 2*dim*size arrays, each containing values for each time value we chose to compute
         positions = solution_states[:self.size * self.dim].reshape((self.size, self.dim, -1)) 
         # we slice solution_states to get just the position data, which is a tensor of shape (size*dim, number of time instances)
@@ -148,63 +128,27 @@ class System:
         fig.show()
 
     def plot_animation(self, solution, tail_length=50):
-        positions = solution.y[:self.size * 3].reshape((self.size, 3, -1)) 
-
-        # x1, y1, z1 = solution.y[0], solution.y[1], solution.y[2]
-        # x2, y2, z2 = solution.y[3], solution.y[4], solution.y[5]
-        # x3, y3, z3 = solution.y[6], solution.y[7], solution.y[8]
-
+        positions = solution.y[:self.size * 3].reshape((self.size, 3, -1))
         fig = go.Figure()
-
-        # 3-body implementation
-        # fig.add_trace(go.Scatter3d(x=[x1[0]], y=[y1[0]], z=[z1[0]], mode='markers', marker=dict(size=5, color='blue'), name='Body 1'))
-        # fig.add_trace(go.Scatter3d(x=[x2[0]], y=[y2[0]], z=[z2[0]], mode='markers', marker=dict(size=5, color='green'), name='Body 2'))
-        # fig.add_trace(go.Scatter3d(x=[x3[0]], y=[y3[0]], z=[z3[0]], mode='markers', marker=dict(size=5, color='red'), name='Body 3'))
-
-        # fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color='blue'), name='Tail 1'))
-        # fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color='green'), name='Tail 2'))
-        # fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color='red'), name='Tail 3'))
+        frames = []
 
         # n-body implementation
         colors = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple', 'orange', 'brown'] # len = 10
         for n in range(self.size):
-            fig.add_trace(go.Scatter3d(x=[positions[n,0,0]], y=[positions[n,1,0]], z=[positions[n,2,0]], mode='markers', marker=dict(size=5, color=colors[n%10]), name=f'Body {n}'))
-            fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color=colors[n%10]), name=f'Tail {n}'))
+            fig.add_trace(go.Scatter3d(x=[positions[n,0,0]], y=[positions[n,1,0]], z=[positions[n,2,0]], mode='markers', marker=dict(size=5, color=colors[n%10]), name=f'Body {n+1}'))
+            fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color=colors[n%10]), name=f'Tail {n+1}'))
 
-        frames = []
-
-        # 3-body
-        # for i in range(len(solution.t)):
-        #     frame_data = [
-        #         go.Scatter3d(x=[x1[i]], y=[y1[i]], z=[z1[i]], mode='markers', marker=dict(size=5, color='blue')),
-        #         go.Scatter3d(x=[x2[i]], y=[y2[i]], z=[z2[i]], mode='markers', marker=dict(size=5, color='green')),
-        #         go.Scatter3d(x=[x3[i]], y=[y3[i]], z=[z3[i]], mode='markers', marker=dict(size=5, color='red'))
-        #     ]
-
-        #     if i > tail_length:
-        #         frame_data.append(go.Scatter3d(x=x1[i-tail_length:i], y=y1[i-tail_length:i], z=z1[i-tail_length:i], mode='lines', line=dict(width=2, color='blue')))
-        #         frame_data.append(go.Scatter3d(x=x2[i-tail_length:i], y=y2[i-tail_length:i], z=z2[i-tail_length:i], mode='lines', line=dict(width=2, color='green')))
-        #         frame_data.append(go.Scatter3d(x=x3[i-tail_length:i], y=y3[i-tail_length:i], z=z3[i-tail_length:i], mode='lines', line=dict(width=2, color='red')))
-        #     else:
-        #         frame_data.append(go.Scatter3d(x=x1[:i], y=y1[:i], z=z1[:i], mode='lines', line=dict(width=2, color='blue')))
-        #         frame_data.append(go.Scatter3d(x=x2[:i], y=y2[:i], z=z2[:i], mode='lines', line=dict(width=2, color='green')))
-        #         frame_data.append(go.Scatter3d(x=x3[:i], y=y3[:i], z=z3[:i], mode='lines', line=dict(width=2, color='red')))
-
-        #     frames.append(go.Frame(data=frame_data))
 
         # n-body
         for i in range(len(solution.t)):
             frame_data = [go.Scatter3d(x=[positions[n,0,i]], y=[positions[n,1,i]], z=[positions[n,2,i]], mode='markers', marker=dict(size=5, color=colors[n%10])) for n in range(self.size)]
-
             if i > tail_length:
                 for n in range(self.size):
                     frame_data.append(go.Scatter3d(x=positions[n,0][i-tail_length:i], y=positions[n,1][i-tail_length:i], z=positions[n,2][i-tail_length:i], mode='lines', line=dict(width=2, color=colors[n%10])))
             else:
                 for n in range(self.size):
                     frame_data.append(go.Scatter3d(x=positions[n,0][:i], y=positions[n,1][:i], z=positions[n,2][:i], mode='lines', line=dict(width=2, color=colors[n%10])))
-
             frames.append(go.Frame(data=frame_data))
-
 
         fig.frames = frames
 
