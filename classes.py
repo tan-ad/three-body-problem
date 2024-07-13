@@ -84,7 +84,9 @@ class System:
         # another fun fact: can slice columns like solution.y[:,0]
         return solution
 
-    # ALL PLOTTING FUNCTIONS WRITTEN FOR 3D
+    '''
+    ALL PLOTTING FUNCTIONS WRITTEN FOR 3D
+    '''
     # wherever I use self.dim, I may as well just use 3
     def plot_lines_matplotlib(self, solution): # initial attempt at visualizing - not very good. for 3 bodies
         solution_states = solution.y # array of 2*dim*size arrays, each containing values for each time value we chose to compute
@@ -127,36 +129,49 @@ class System:
 
         fig.show()
 
-    def plot_animation(self, solution, tail_length=50):
+    def plot_animation(self, solution, tail_length=50): # for n bodies
         positions = solution.y[:self.size * 3].reshape((self.size, 3, -1))
         fig = go.Figure()
         frames = []
+        colours = ['blue', 'green', 'red', 'magenta', 'yellow', 'black', 'purple', 'orange', 'brown', 'cyan'] # len = 10, for colouring the bodies
 
-        # n-body implementation
-        colors = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple', 'orange', 'brown'] # len = 10
-        for n in range(self.size):
-            fig.add_trace(go.Scatter3d(x=[positions[n,0,0]], y=[positions[n,1,0]], z=[positions[n,2,0]], mode='markers', marker=dict(size=5, color=colors[n%10]), name=f'Body {n+1}'))
-            fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color=colors[n%10]), name=f'Tail {n+1}'))
+        for n in range(self.size): # visualize bodies and trails
+            fig.add_trace(go.Scatter3d(x=[positions[n,0,0]], y=[positions[n,1,0]], z=[positions[n,2,0]], mode='markers', marker=dict(size=5, color=colours[n%10]), name=f'Body {n+1}'))
+            fig.add_trace(go.Scatter3d(x=[], y=[], z=[], mode='lines', line=dict(width=2, color=colours[n%10]), name=f'Tail {n+1}'))
 
-
-        # n-body
-        for i in range(len(solution.t)):
-            frame_data = [go.Scatter3d(x=[positions[n,0,i]], y=[positions[n,1,i]], z=[positions[n,2,i]], mode='markers', marker=dict(size=5, color=colors[n%10])) for n in range(self.size)]
+        for i in range(len(solution.t)): # feed data
+            frame_data = [go.Scatter3d(x=[positions[n,0,i]], y=[positions[n,1,i]], z=[positions[n,2,i]], mode='markers', marker=dict(size=5, color=colours[n%10])) for n in range(self.size)]
             if i > tail_length:
                 for n in range(self.size):
-                    frame_data.append(go.Scatter3d(x=positions[n,0][i-tail_length:i], y=positions[n,1][i-tail_length:i], z=positions[n,2][i-tail_length:i], mode='lines', line=dict(width=2, color=colors[n%10])))
+                    frame_data.append(go.Scatter3d(x=positions[n,0][i-tail_length:i], y=positions[n,1][i-tail_length:i], z=positions[n,2][i-tail_length:i], mode='lines', line=dict(width=2, color=colours[n%10])))
             else:
                 for n in range(self.size):
-                    frame_data.append(go.Scatter3d(x=positions[n,0][:i], y=positions[n,1][:i], z=positions[n,2][:i], mode='lines', line=dict(width=2, color=colors[n%10])))
+                    frame_data.append(go.Scatter3d(x=positions[n,0][:i], y=positions[n,1][:i], z=positions[n,2][:i], mode='lines', line=dict(width=2, color=colours[n%10])))
             frames.append(go.Frame(data=frame_data))
 
         fig.frames = frames
-
-        fig.update_layout(updatemenus=[dict(type='buttons', showactive=False, buttons=[dict(label='Play', method='animate', args=[None, dict(frame=dict(duration=50, redraw=True), fromcurrent=True)])])])
-
+        min_value = positions.min()
+        max_value = positions.max()
+        fig.update_layout(
+            updatemenus=[
+                dict(type='buttons', 
+                     showactive=False, 
+                     buttons=[
+                        dict(label='Play', method='animate', args=[None, dict(frame=dict(duration=50, redraw=True), fromcurrent=True)]),
+                        dict(label='Pause', method='animate', args=[[None], dict(frame=dict(duration=0, redraw=False), mode='immediate', fromcurrent=True)]),
+                    ]
+                )
+            ],
+            scene=dict(
+                xaxis=dict(title='X', range=[min_value, max_value]),
+                yaxis=dict(title='Y', range=[min_value, max_value]),
+                zaxis=dict(title='Z', range=[min_value, max_value]),
+                aspectmode='cube'
+            ),
+            title='3D Trajectories of Bodies'
+        )
         fig.show()
 
     def __repr__(self):
         COM_position, COM_velocity = self.get_COM_position_and_velocity()
         return f"SYSTEM DESCRIPTION: \nBodies: \n{self.bodies}, \nSize: {self.size}, Dimension: {self.dim}, \nState: {self.get_state()}, \nCOM position: {COM_position}, COM velocity: {COM_velocity}"
-
